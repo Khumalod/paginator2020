@@ -1,9 +1,9 @@
 <?php
 Class DbConnection{
     function getdbconnect(){
-        $servername = "localhost";
+        $servername = "localhost:3309";
         $username = "root";
-        $password = "root";
+        $password = "";
         $dbname = "loc_srasystem";
 
         try {

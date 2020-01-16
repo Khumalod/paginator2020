@@ -19,9 +19,12 @@ class Paginator{
     private $pagination_links = "";
     private $rows_found = "";
     private $limit = false;
+    //ajax based or nomal paginator (normal paginator trigger page refresh when you click on pagination links)
+    private $paginator_type = false;
 
-    public function __construct($rows_found,$per_page=15)
+    public function __construct($rows_found,$per_page=15,$paginator_type)
     {
+        $this->paginator_type = $paginator_type == false ? "ajax" : $paginator_type;
         $this->rows_found = $rows_found;
         $this->total_rows_found = $rows_found;
         $this->page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -35,10 +38,10 @@ class Paginator{
         if ($this->last_page != 1) {
 
             if ($this->page > 1 && $this->page != $this->last_page) {
-                $next = $this->last_page + 1;
+                $next_page = $this->last_page + 1;
                 $request_url = $this->get_request_path();
 
-                $this->pagination_links .= "<li class='page-item'><a class = 'cp page-link'  onclick ='paginate(\"$request_url & page=$next\")'>Next</a></li>";
+                $this->pagination_links .= $this->create_html_for_pagination_links($next_page,$request_url,"Next");
             }
         }
     }
@@ -46,35 +49,56 @@ class Paginator{
     public function create_previous(){
         if ($this->page > 1) {
             //Show 'Previous' only if page number is greater than 1,
-            $previous = $this->page - 1;
+            $previous_page = $this->page - 1;
             $request_url = $this->get_request_path();
-            $this->pagination_links = "<li class='page-item'><a class = 'page-link'  onclick ='paginate(\"$request_url & page =$previous\")'>Previous</a></li>";
+            $this->pagination_links = $this->create_html_for_pagination_links($previous_page,$request_url,"Previous");
         }
+    }
+    //=====================================================================
+    public function create_html_for_pagination_links($page_number,$request_url,$html_text,$is_link_active =''){
+
+        if($this->paginator_type == 'ajax'){
+
+            return "<li class='page-item' $is_link_active >
+                        <a class = 'page-link'  onclick ='paginate(\"$request_url&page=$page_number\")'>$html_text</a>
+                    </li>";
+
+        }else{
+
+            return "<li class='page-item' $is_link_active >
+                        <a class = 'page-link'  href='$request_url&page=$page_number' class = 'page-link'>$html_text</a>
+                    </li>";
+
+        }
+
+
     }
     //===============================================================================
     public function create_pagination_links(){
 
         $request_query_strings = $this->get_query_strings();
 
-        unset($request_query_strings['page']); //removes page from query strings
+        unset($request_query_strings['page']); //removes current page from query strings
 
-        for ($j = 1; $j <= $this->last_page; $j++) {
+        for ($page = 1; $page <= $this->last_page; $page++) {
 
             $request_url = $this->get_request_path()."?".http_build_query($request_query_strings);
 
             //class: to show link as active or in active
             $active = "";
-            if ($this->page == $j) {
+            if ($this->page == $page) {
                 $active = "active";
             }
-             $this->pagination_links .= "<li class='page-item $active'><a class = 'page-link'  onclick ='paginate(\"$request_url&page=$j\")'>$j</a></li>";
+            $this->pagination_links .= $this->create_html_for_pagination_links($page,$request_url,$page,$active);
         }
     }
     //===============================================================================
     public function get_pagination_links(){
+
         $this->create_previous();
         $this->create_pagination_links();
         $this->create_next();
+
         return $this->pagination_links;
     }
     //===============================================================================

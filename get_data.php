@@ -27,10 +27,10 @@ require('positions.php');
 
     $search_condition = "where pre_first_choice_position = '$first_choice_position' or pre_second_choice_position = '$second_choice_position'";
 
-    $paginator = new Paginator($rows_found,'3');
+    $paginator = new Paginator($rows_found,'3','normal');
     $pagination_links =  $paginator->get_pagination_links();
 
-    $offset_and_limimt = 'LIMIT ' . ($paginator->page_nu - 1) * $paginator->per_page . ',' . $paginator->per_page;
+    $offset_and_limimt = 'LIMIT ' . ($paginator->page - 1) * $paginator->per_page . ',' . $paginator->per_page;
     $sql = "SELECT * FROM $table $search_condition $offset_and_limimt ";
 
     $db_conn_obj = new DbConnection();
