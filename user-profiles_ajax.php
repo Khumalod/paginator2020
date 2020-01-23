@@ -85,16 +85,13 @@
 //    var second_position = $('#second_position').val();
 
     $(document).ready(function(){
-        paginate('get_data.php?fist_position=1&second_position=4&page_nu=1');
+        paginate('get_data.php');
     });
-
-   //  paginate("/paginator/get_data.php?per_tr_hr=343&per_page_nu=1");
-
 
     $('#search').click(function(){
         var fist_position = document.getElementById("first_position").value
         var second_position = document.getElementById("second_position").value
-        paginate('get_data.php?fist_position='+fist_position+'&second_position='+second_position+'&page_nu=1');
+        paginate('get_data.php?fist_position='+fist_position+'&second_position='+second_position);
     })
     function paginate(request_uri){
         $.ajax({

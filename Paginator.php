@@ -16,7 +16,7 @@ class Paginator{
     //the current page number
     public $page =  false;
     private $last_page = "";
-    private $pagination_links = "";
+    private $pagination_links = ""; //html pagination links rendered on the view
     private $rows_found = "";
     private $limit = false;
     //ajax based or nomal paginator (normal paginator trigger page refresh when you click on pagination links)
@@ -70,7 +70,6 @@ class Paginator{
                     </li>";
 
         }
-
 
     }
     //===============================================================================

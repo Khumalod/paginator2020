@@ -9,11 +9,19 @@ require('positions.php');
  */
 
 
-//
-    $first_choice_position = $_GET['fist_position'];
-    $second_choice_position = $_GET['second_position'];
+
     $table="person_recruitment";
-    $search_condition = "where pre_first_choice_position = '$first_choice_position' or pre_second_choice_position = '$second_choice_position'";
+    $first_choice_position = "";
+    $second_choice_position = "";
+    if(isset( $_GET['fist_position'])){
+        $first_choice_position = $_GET['fist_position'];
+        $second_choice_position = $_GET['second_position'];
+        $search_condition = "where pre_first_choice_position = '$first_choice_position' or pre_second_choice_position = '$second_choice_position'";
+    }else{
+        $search_condition = "";
+    }
+
+
     $sql = "SELECT * FROM $table $search_condition";
 
     $db_conn_obj = new DbConnection();
@@ -24,8 +32,6 @@ require('positions.php');
 
     $rows_found =  count($stmt->fetchAll());
 
-
-    $search_condition = "where pre_first_choice_position = '$first_choice_position' or pre_second_choice_position = '$second_choice_position'";
 
     $paginator = new Paginator($rows_found,'3','normal');
     $pagination_links =  $paginator->get_pagination_links();
@@ -41,14 +47,14 @@ require('positions.php');
 
     $person_data =  $stmt->fetchAll();
 
-    $html = "";
+    $players_html = "";
     foreach($person_data as $person){
         $position_nr = $person['pre_first_choice_position'];
         if($person['pre_first_choice_position'] != $first_choice_position){
             $position_nr = $person['pre_second_choice_position'];
         }
         $position_name = $playing_positions_arr[$position_nr];
-        $html .=  '<li>
+        $players_html .=  '<li>
                         <a href="#" class="user-avatar">
                             <img src="assets/images/avatars/1.jpg" width="80" alt="Profile of Adeline Yong">
                         </a>
@@ -61,13 +67,10 @@ require('positions.php');
                     </li>';
     }
 
-   $arr = ["user_profile"=>$html,"pagination_links"=>$pagination_links];
-    echo json_encode($arr);
+   //$data =  $html;
+  // echo $pagination_links;
 
-   //echo $paginator->get_pagination_links();
-
-
-
-
+   /* $arr = ["user_profile"=>$html,"pagination_links"=>$pagination_links];
+   echo json_encode($arr); */
 
 ?>
