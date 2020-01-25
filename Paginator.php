@@ -6,7 +6,7 @@
  * Time: 19:52
  */
 include('connect.php');
-//OBJECT ORIENTED VERSION OF SRA Pagination
+
 class Paginator{
     private $request_url;
     public $per_page;
@@ -124,7 +124,7 @@ class Paginator{
     public function get_page_nu(){
        return $this->page_nu;
     }
-
+    //===============================================================================
     public function get_query_strings(){
 
         parse_str($_SERVER['QUERY_STRING'],$query_strings);
@@ -132,5 +132,21 @@ class Paginator{
 
     }
 
-   }
+    /*
+       offset, limit
+        OFFSET is used to specify on which row we should start querying the database...e.g if the offset is 5, the query
+        will skip the first four rows and start and row 5
+         limit specifies where we should end....
+        the limit is your per_page variable, offset is a calculated value and is controlled by the current page & your per_page variable
+        e.g for page one the offset will be 1 - 1 * $per_page =  0 * 5 = 0...
+            this means for page 1 we start and row zero and end at row 5, if your per_page variable is 5
+          for page two the the offset will be 2-1 * $per_page = 1*5
+            this means that for page 2 will we start querying the database at row 5 and end at row 10, if your per_page variable is 5;
+
+    */
+    public function get_offset_and_limit(){
+
+        return ($this->page - 1) * $this->per_page . ',' . $this->per_page;
+    }
+}
 

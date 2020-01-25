@@ -44,7 +44,6 @@
 <body>
 <?php
     include_once('get_data.php');
-   print_r($_REQUEST);
 ?>
 <div class="container">
     <div class="row">
@@ -52,11 +51,11 @@
         <form action="<?= $_SERVER['PHP_SELF']?>" class="form-inline"  method="get" style="margin-top:20px">
             <div class="form-group mx-sm-3 mb-2">
                 <label for="first_position" class="sr-only">Password</label>
-                <input type="text" class="form-control" id="first_position" placeholder="First Position">
+                <input type="text" class="form-control" name="fist_position" id="first_position" placeholder="First Position">
             </div>
             <div class="form-group mx-sm-3 mb-2">
                 <label for="second_position" class="sr-only">Password</label>
-                <input type="text" class="form-control" id="second_position" placeholder="Second Position">
+                <input type="text" class="form-control" name="second_position" id="second_position" placeholder="Second Position">
             </div>
             <input type="submit" class="btn btn-primary mb-2"></input>
         </form>
