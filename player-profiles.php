@@ -43,7 +43,7 @@
 </style>
 <body>
 <?php
-    include_once('get_data.php');
+    include_once('get_players.php');
 ?>
 <div class="container">
     <div class="row">
@@ -51,16 +51,38 @@
         <form action="<?= $_SERVER['PHP_SELF']?>" class="form-inline"  method="get" style="margin-top:20px">
             <div class="form-group mx-sm-3 mb-2">
                 <label for="first_position" class="sr-only">Password</label>
-                <input type="text" class="form-control" name="fist_position" id="first_position" placeholder="First Position">
+                <input type="text" class="form-control" name="first_position" id="first_position"  value = "<?php  echo isset( $_GET['first_position'])? $_GET['first_position'] : "" ?>" placeholder="First Position">
             </div>
             <div class="form-group mx-sm-3 mb-2">
                 <label for="second_position" class="sr-only">Password</label>
-                <input type="text" class="form-control" name="second_position" id="second_position" placeholder="Second Position">
+                <input type="text" class="form-control" name="second_position"  value = "<?php  echo isset( $_GET['second_position'])? $_GET['second_position'] : "" ?>" id="second_position" placeholder="Second Position">
             </div>
-            <input type="submit" class="btn btn-primary mb-2"></input>
+            <input type="submit" value="Search" class="btn btn-primary mb-2"></input>
         </form>
         <ul class="user-profiles-list-basic">
-            <?php echo $players_html ?>
+            <?php
+                foreach($players as $player){
+                    $position_nr = $player['pre_first_choice_position'];
+                    if($player['pre_first_choice_position'] != $first_choice_position){
+                        $position_nr = $player['pre_second_choice_position'];
+                    }
+                    $position_name = $playing_positions_arr[$position_nr];
+                    $random_number = rand(1,50);
+                    $random_image = 'https://i.pravatar.cc/150?img='.$random_number;
+                     ?>
+                    <li>
+                        <a href="#" class="user-avatar">
+                            <img src="<?= $random_image ?>" width="80" alt="">
+                        </a>
+                        <p>
+                            <a href=""> <?= utf8_encode($player['pre_firstname']) ?></a>
+                            <span>Position : <i> <?= $position_name ?></i></span>
+                        </p>
+
+                        <a class="delete" href="#"><i class="fa fa-close"></i></a>
+                    </li> <?php
+                }
+            ?>
         </ul>
     </div>
     <nav aria-label="Page navigation pagination-link" style="margin-top:45px;">

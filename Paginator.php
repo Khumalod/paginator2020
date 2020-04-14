@@ -8,6 +8,7 @@
 include('connect.php');
 
 class Paginator{
+
     private $request_url;
     public $per_page;
     /* used to determine the last page, last page will be total_rows / per page e.g 10 rows found / 5
@@ -22,9 +23,9 @@ class Paginator{
     //ajax based or nomal paginator (normal paginator trigger page refresh when you click on pagination links)
     private $paginator_type = false;
 
-    public function __construct($rows_found,$per_page=15,$paginator_type)
+    public function __construct($rows_found,$per_page=15,$paginator_type = '')
     {
-        $this->paginator_type = $paginator_type == false ? "ajax" : $paginator_type;
+        $this->paginator_type = $paginator_type == false ? "normal" : 'ajax';
         $this->rows_found = $rows_found;
         $this->total_rows_found = $rows_found;
         $this->page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -145,7 +146,7 @@ class Paginator{
 
     */
     public function get_offset_and_limit(){
-
+                //offset                                , limit
         return ($this->page - 1) * $this->per_page . ',' . $this->per_page;
     }
 }

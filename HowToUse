@@ -1,5 +1,5 @@
 1. Execute your sql select statement
-    Calculate the number of rows returned by your sql and pass them to the instance of the Paginator class
+2. Calculate the number of rows returned by your sql and pass them to the instance of the Paginator class
     Pass the number of rows you want to display per page as the first parameter.
         $paginator = new Paginator($rows_found,$per_page,$paginatorType);
 
@@ -14,10 +14,11 @@
                 }
 
 2. Execute your sql statement and pass the limit and the offset to your sql to get limited rows.
+    $offset_and_limimt = 'LIMIT ' . $paginator->get_offset_and_limit();
+    $sql = "SELECT * FROM $table $search_condition $offset_and_limimt ";
     The paginator calculates the offset for you
 
-     $offset_and_limimt = 'LIMIT ' . $paginator->get_offset_and_limit();
-        $sql = "SELECT * FROM $table $search_condition $offset_and_limimt ";
+
 
     OFFSET is used to specify on which row we should start querying the database...e.g if the offset is 5, the query
     will skip the first four rows and start and row 5
