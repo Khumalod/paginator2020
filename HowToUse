@@ -13,7 +13,7 @@
                     //generate pagination links
                 }
 
-2. Execute your sql statement and pass the limit and the offset to your sql to get limited rows.
+3. Execute your sql statement and pass the limit and the offset to your sql to get limited rows.
     $offset_and_limimt = 'LIMIT ' . $paginator->get_offset_and_limit();
     $sql = "SELECT * FROM $table $search_condition $offset_and_limimt ";
     The paginator calculates the offset for you
